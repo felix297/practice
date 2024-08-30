@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        https://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="user" class="com.company.pojo.User">
+        <constructor-arg index="0" value="tom"/>
+        <constructor-arg index="1" value="20"/>
+        <constructor-arg index="2" value="male"/>
+    </bean>
+
+    <bean id="user2" class="com.company.pojo.User" scope="prototype">
+        <constructor-arg index="0" value="jerry"/>
+        <constructor-arg index="1" value="20"/>
+        <constructor-arg index="2" value="male"/>
+    </bean>
+
+    <bean id="info" class="com.company.pojo.Info">
+        <property name="user" ref="user2"/>
+    </bean>
+
+</beans>

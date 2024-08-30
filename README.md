@@ -16,11 +16,9 @@
 
 ```xml
 <!-- 版本汇总 -->
-<properties>
-    <spring-context.version>5.3.31</spring-context.version>
-    <lombok.version>1.18.30</lombok.version>
-    <junit.version>4.13.2</junit.version>
-</properties>
+<spring-context.version>5.3.31</spring-context.version>
+<lombok.version>1.18.30</lombok.version>
+<junit.version>4.13.2</junit.version>
 ```
 
 ### spring 相关依赖
@@ -79,12 +77,9 @@
 </dependency>
 ```
 
-## exclusions 排除依赖
+### exclusions 排除依赖
 
-因为spring-core依赖了commons-logging，而其他模块都依赖了spring-core，所以整个spring框架都依赖了commons-logging，如果有自己的日志实现如log4j，可以排除对commons-logging的依赖，没有日志实现而排除了commons-logging依赖，编译报错。
-
-org.springframe.cache
-org.springframe.dao
+因为 spring-core 依赖了 commons-logging，而其他模块都依赖了 spring-core，所以整个 spring 框架都依赖了 commons-logging，如果有自己的日志实现如 log4j，可以排除对 commons-logging 的依赖，没有日志实现而排除了 commons-logging 依赖，编译报错。
 
 # xml 文件模板
 
@@ -99,3 +94,11 @@ org.springframe.dao
 
     </beans>
     ```
+
+# 其他
+
+1. Lombok 导致 spring bean 的 `scopt=prototype` 设置不生效
+
+    使用了 `@Data` 之后导致 `scopt=prototype` 设置不生效，而 lombok 中的其他注解则不会。
+
+    另外请参见：[参考](https://wenku.csdn.net/answer/896aff3cc29f48b38c4fb2faf301b2b7)

@@ -9,12 +9,18 @@
 
     <context:annotation-config/>
 
-    <bean id="info" class="com.company.pojo.Info">
-<!--        <property name="user" ref="user"/>-->
+    <bean id="info" class="com.company.pojo.Info"/>
 
+    <bean id="user" class="com.company.pojo.User">
+        <constructor-arg index="0" value="user"/>
+        <constructor-arg index="1" value="20"/>
+        <constructor-arg index="2" value="male"/>
     </bean>
 
-<!--    <bean id="user" class="com.company.pojo.User">-->
-<!--    </bean>-->
+    <bean id="user2" class="com.company.pojo.User" >
+        <constructor-arg index="0" value="user2"/>
+        <constructor-arg index="1" value="24"/>
+        <constructor-arg index="2" value="female"/>
+    </bean>
 
 </beans>

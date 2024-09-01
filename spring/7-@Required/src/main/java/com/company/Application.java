@@ -9,7 +9,7 @@ public class Application {
     public static void main (String[] args) {
         ApplicationContext context = new ClassPathXmlApplicationContext("beans.xml");
         Info info = context.getBean("info", Info.class);
-        System.out.println(info.toString());
+        System.out.println(info.getContext().getBean("user", User.class).toString());
 
     }
 }

@@ -83,7 +83,7 @@
 
 # xml 文件模板
 
-1. `bean.xml`
+1. 最基础的 `bean.xml`
 
     ```xml
     <?xml version="1.0" encoding="UTF-8"?>
@@ -95,6 +95,22 @@
     </beans>
     ```
 
+2. Annotation-based Container Configuration
+
+    ```xml
+    <?xml version="1.0" encoding="UTF-8"?>
+    <beans xmlns="http://www.springframework.org/schema/beans"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:context="http://www.springframework.org/schema/context"
+        xsi:schemaLocation="http://www.springframework.org/schema/beans
+            https://www.springframework.org/schema/beans/spring-beans.xsd
+            http://www.springframework.org/schema/context
+            https://www.springframework.org/schema/context/spring-context.xsd">
+
+        <context:annotation-config/>
+
+    </beans>
+    ```
 # 其他
 
 1. Lombok 导致 spring bean 的 `scopt=prototype` 设置不生效

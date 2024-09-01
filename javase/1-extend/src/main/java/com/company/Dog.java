@@ -2,6 +2,16 @@ package com.company;
 
 public class Dog extends Animal {
     private String name;
+//    private int age;
+//    private String gender;
+    public Dog () {
+        super();
+    }
+
+    public Dog(String name, int age, String gender) {
+        super(name, age, gender);
+    }
+
     public void eat() {
         System.out.println(this.getName() + " is eating...");
     }

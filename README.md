@@ -19,6 +19,7 @@
 <spring-context.version>5.3.31</spring-context.version>
 <lombok.version>1.18.30</lombok.version>
 <junit.version>4.13.2</junit.version>
+<aspectj.version>1.9.7</aspectj.version>
 ```
 
 ### spring 相关依赖
@@ -31,17 +32,11 @@
     <version>${spring-context.version}</version>
 </dependency>
 
-<!-- spring aop 依赖 -->
+<!-- spring aop 依赖：spring-context里面没有这个，要用 aop 的时候要加上 -->
 <dependency>
-    <groupId>org.springframework</groupId>
-    <artifactId>spring-aop</artifactId>
-    <version>5.3.31</version>
-</dependency>
-
-<dependency>
-    <groupId>org.springframework</groupId>
-    <artifactId>spring-aspects</artifactId>
-    <version>5.3.31</version>
+   <groupId>org.aspectj</groupId>
+   <artifactId>aspectjweaver</artifactId>
+   <version>${aspectj.version}</version>
 </dependency>
 
 <!-- springmvc 依赖 -->
@@ -111,6 +106,25 @@
 
     </beans>
     ```
+
+3. AOP
+
+    ```xml
+    <?xml version="1.0" encoding="UTF-8"?>
+    <beans xmlns="http://www.springframework.org/schema/beans"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:context="http://www.springframework.org/schema/context"
+        xmlns:aop="http://www.springframework.org/schema/aop"
+        xsi:schemaLocation="http://www.springframework.org/schema/beans
+            https://www.springframework.org/schema/beans/spring-beans.xsd
+            http://www.springframework.org/schema/context
+            https://www.springframework.org/schema/context/spring-context.xsd
+            http://www.springframework.org/schema/aop
+            http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    </beans>
+    ```
+
 # 其他
 
 1. Lombok 导致 spring bean 的 `scopt=prototype` 设置不生效

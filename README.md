@@ -76,6 +76,34 @@
 
 因为 spring-core 依赖了 commons-logging，而其他模块都依赖了 spring-core，所以整个 spring 框架都依赖了 commons-logging，如果有自己的日志实现如 log4j，可以排除对 commons-logging 的依赖，没有日志实现而排除了 commons-logging 依赖，编译报错。
 
+### 使用 maven 时遇到的问题
+
+1. maven process terminate
+
+    点下图那里可以查看详细报错
+
+    ![alt text](image/image.png)
+
+2. 子工程最好不要定义 groupId 和 version
+
+    子工程自动继承父工程的 groupId 和 version
+
+3. 使用 dependencies 管理项目依赖的版本时， maven project 出现你要导入的内容
+
+    对每个子模块用一下 clean ，看看哪里有报错，解决报错，即可
+
+    > 多模块工程的 maven，在任何一个子模块出错了，整个工程的依赖都导不到
+
+4. `classpath*:mapper/**/*Mapper.xml`
+
+    - `*` 通配符用于匹配当前目录下的任意文件或目录，但不包括子目录中的内容。
+    - `**` 通配符用于匹配任意层级的目录。这意味着它可以匹配当前目录及其所有子目录中的文件。
+    - `classpath*`: 这个前缀表示不仅匹配当前类路径下的资源，还会匹配所有的类路径，包括所有的 JAR 文件和其他类路径中的资源。
+
+5. [WARNING] The POM for xxx is missing, no dependency inform
+
+    从最顶级的父模块开始 install，全部重新 install 之后就行了
+
 # xml 文件模板
 
 1. 最基础的 `bean.xml`

@@ -82,7 +82,7 @@
 
     点下图那里可以查看详细报错
 
-    ![alt text](image/image.png)
+    ![alt text](images/image.png)
 
 2. 子工程最好不要定义 groupId 和 version
 

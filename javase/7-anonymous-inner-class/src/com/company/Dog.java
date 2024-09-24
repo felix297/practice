@@ -23,4 +23,12 @@ public class Dog {
     public void bark () {
         System.out.println("dog" + " is barking...");
     }
+
+    @Override
+    public String toString() {
+        return "Dog{" +
+                "name='" + name + '\'' +
+                ", age=" + age +
+                '}';
+    }
 }

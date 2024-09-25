@@ -43,7 +43,7 @@
 <dependency>
     <groupId>org.springframework</groupId>
     <artifactId>spring-webmvc</artifactId>
-    <version>5.3.31</version>
+    <version>${spring-context.version}</version>
 </dependency>
 
 <dependency>

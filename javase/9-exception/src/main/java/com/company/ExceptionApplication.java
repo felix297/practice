@@ -1,5 +1,9 @@
 package com.company;
 
+import org.junit.Test;
+
+import java.util.Objects;
+
 public class ExceptionApplication {
     public static void main (String[] args) {
         try {
@@ -11,6 +15,13 @@ public class ExceptionApplication {
             System.out.println("message: " + e.getMessage());
             System.out.println("cause: " + e.getCause().getMessage());
         }
+    }
+
+    @Test
+    public void nullPointerException () {
+        int[] nums = null;
+        Objects.requireNonNull(nums, "you're referring a null object");
+//        System.out.println(nums.length);
 
     }
 }

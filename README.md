@@ -175,3 +175,5 @@
     使用了 `@Data` 之后导致 `scopt=prototype` 设置不生效，而 lombok 中的其他注解则不会。
 
     另外请参见：[参考](https://wenku.csdn.net/answer/896aff3cc29f48b38c4fb2faf301b2b7)
+
+2. `@Value` + `@PropertySource` 只能注入 `.properties` 文件中的属性，要注入 `.yml` 或者 `.yaml` 文件要使用 SpringBoot 的相关注解注入

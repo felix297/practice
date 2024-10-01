@@ -17,6 +17,7 @@
 ```xml
 <!-- 版本汇总 -->
 <spring-context.version>5.3.31</spring-context.version>
+<jakarta-annotation.version>1.3.5</jakarta-annotation.version> <!-- @Resource 是 java 原生的注解。在这个包 -->
 <lombok.version>1.18.30</lombok.version>
 <junit.version>4.13.2</junit.version>
 <aspectj.version>1.9.7</aspectj.version>
@@ -32,6 +33,11 @@
     <version>${spring-context.version}</version>
 </dependency>
 
+<dependency>
+    <groupId>jakarta.annotation</groupId>
+    <artifactId>jakarta.annotation-api</artifactId>
+    <version>${jakarta-annotation.version}</version>
+</dependency>
 <!-- spring aop 依赖：spring-context里面没有这个，要用 aop 的时候要加上 -->
 <dependency>
    <groupId>org.aspectj</groupId>

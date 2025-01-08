@@ -157,6 +157,32 @@
 
     </beans>
     ```
+# maven
+
+## 常用添加内容
+
+```markdown
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.3</version>
+        <configuration>
+          <source>11</source>
+          <target>11</target>
+        </configuration>
+      </plugin>
+    </plugins>
+
+    <resources>
+      <resource>
+        <directory>src/main/resources2</directory>
+        <filtering>true</filtering>
+      </resource>
+    </resources>
+  </build>
+```
 
 # Server Sent Event
 

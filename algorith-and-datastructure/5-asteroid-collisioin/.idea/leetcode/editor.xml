@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="LeetcodeEditor">
+    <option name="projectConfig">
+      <map>
+        <entry key="$PROJECT_DIR$/../leetcodePluginTempDir/leetcode/editor/en/[1700]Number of Students Unable to Eat Lunch.java">
+          <value>
+            <LeetcodeEditor>
+              <option name="contentPath" value="$PROJECT_DIR$/../leetcodePluginTempDir/leetcode/editor/en/doc/content/[1700]Number of Students Unable to Eat Lunch.md" />
+              <option name="frontendQuestionId" value="leetcode.com1700" />
+              <option name="host" value="leetcode.com" />
+              <option name="path" value="$PROJECT_DIR$/../leetcodePluginTempDir/leetcode/editor/en/[1700]Number of Students Unable to Eat Lunch.java" />
+              <option name="titleSlug" value="number-of-students-unable-to-eat-lunch" />
+            </LeetcodeEditor>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>

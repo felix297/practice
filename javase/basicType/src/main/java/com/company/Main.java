@@ -1,7 +1,18 @@
 package com.company;
 
 public class Main {
+    // default value
+    static byte byteValue;
+    static short shortValue;
+    static int intValue;
+    static long longValue;
+    static float floatValue;
+    static double doubleValue;
+    static char charValue;
+    static boolean booleanValue;
+
     public static void main (String[] args) {
+        // value range
         System.out.println("----BYTE----");
         System.out.println("Size: " + Byte.SIZE);
         System.out.println("Max value: " + Byte.MAX_VALUE);
@@ -32,5 +43,13 @@ public class Main {
         System.out.println("Minimum Value: " + Character.MIN_VALUE);
 
 
+        System.out.println("byteValue: " + byteValue);
+        System.out.println("shortValue: " + shortValue);
+        System.out.println("intValue: " + intValue);
+        System.out.println("longValue: " + longValue);
+        System.out.println("floatValue: " + floatValue);
+        System.out.println("doubleValue: " + doubleValue);
+        System.out.println("charValue: " + charValue);
+        System.out.println("booleanValue: " + booleanValue);
     }
 }

@@ -12,6 +12,35 @@ public class Main {
     static boolean booleanValue;
 
     public static void main (String[] args) {
+//        valueRange();
+//        defaultValue();
+//        referenceType();
+//        constant();
+        radix();
+
+    }
+
+    public static void radix () {
+        int radixEight = 011;
+        int radixSixteen = 0x11;
+
+        System.out.println("radix eight: " + radixEight);
+        System.out.println("radix sixteen: " + radixSixteen);
+    }
+
+    public static void constant () {
+        final double PI = 3.14159;
+        System.out.println(PI);
+//        PI = 3;
+//        System.out.println(PI);
+    }
+
+    public static void referenceType () {
+        ReferenceType referenceType;
+//        System.out.println(referenceType.toString());
+    }
+
+    public static void valueRange() {
         // value range
         System.out.println("----BYTE----");
         System.out.println("Size: " + Byte.SIZE);
@@ -41,8 +70,10 @@ public class Main {
         System.out.println("Size: " + Character.SIZE);
         System.out.println("Maximum Value: " + Character.MAX_VALUE);
         System.out.println("Minimum Value: " + Character.MIN_VALUE);
+    }
 
-
+    public static void defaultValue () {
+        // default value
         System.out.println("byteValue: " + byteValue);
         System.out.println("shortValue: " + shortValue);
         System.out.println("intValue: " + intValue);

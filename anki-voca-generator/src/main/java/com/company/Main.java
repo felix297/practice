@@ -2,9 +2,11 @@ package com.company;
 
 public class Main {
     public static void main (String[] args) {
+        run();
+    }
+
+    public static void run () {
         VocaGenerator vocaGenerator = new VocaGenerator();
-        String fileName = "class1";
-        vocaGenerator.generateData4OneClass("rawVoca/" + fileName + ".txt", "Anki_" + fileName + ".txt");
-//        vocaGenerator.generateData4AllClass("rawVoca", "Anki.txt");
+        vocaGenerator.generateData4AllClass();
     }
 }

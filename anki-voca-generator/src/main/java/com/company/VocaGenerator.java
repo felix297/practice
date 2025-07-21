@@ -2,13 +2,16 @@ package com.company;
 
 import java.util.Objects;
 import java.io.*;
-import java.nio.charset.StandardCharsets;
 
 public class VocaGenerator {
     private void verifyFile (File file) {
         if (!file.exists()) {
             try {
-                file.createNewFile();
+                if (file.isDirectory()) {
+                    file.mkdir();
+                } else {
+                    file.createNewFile();
+                }
             } catch (IOException e) {
                 System.out.println("Error when creating target file <" + file.getAbsolutePath() + ">");
                 e.printStackTrace();
@@ -27,22 +30,31 @@ public class VocaGenerator {
         }
     }
 
-    public void generateData4OneClass (File srcFile, String outputFilePath) {
-        verifyFile(srcFile);
-        try (BufferedReader reader = new BufferedReader(new FileReader(srcFile))) {
+    public void generateData4OneClass (File rawFile, String outputFilePath) {
+        verifyFile(rawFile);
+        try(BufferedReader reader = new BufferedReader(new FileReader(rawFile))) {
             String line;
             int count = 1;
-            while (!Objects.isNull(line = reader.readLine())) {
-                String[] strArr = line.split(",");
-                Tango tango = new Tango(strArr[0], strArr[1], strArr[2], strArr[3], srcFile.getName().substring(0, 6) + "_" + count + ".mp3");
+            while (Objects.nonNull(line = reader.readLine())) {
+                String[] strArr = line.split("\t");
+                if (strArr.length != 7) {
+                    System.out.println("Wrong colume number at line " + count);
+                    continue;
+                }
+                Tango tango = new Tango(strArr[2], strArr[5], strArr[0], strArr[1], strArr[6], rawFile.getName().substring(0, 6) + "_" + count + ".mp3");
                 writeLineIntoFile(outputFilePath, tango.toString());
                 System.out.println("Word " + count + " is inserted!");
                 count++;
             }
         } catch (IOException e) {
-            System.out.println("Error when reading source data file <" + srcFile.getAbsolutePath() + ">");
             e.printStackTrace();
         }
+    }
+
+    public void generateData4OneClass (String rawFilePath, String outputFilePath) {
+        String absoluteFilePath = this.getClass().getClassLoader().getResource(rawFilePath).getPath();
+        File file = new File(absoluteFilePath);
+        generateData4OneClass(file, file.getParentFile().getParent() + "\\" + outputFilePath);
     }
 
     public void generateData4AllClass (String relativeResourcePath, String outputFilePath) {

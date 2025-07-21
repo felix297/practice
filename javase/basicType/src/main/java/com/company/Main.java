@@ -16,8 +16,14 @@ public class Main {
 //        defaultValue();
 //        referenceType();
 //        constant();
-        radix();
+//        radix();
+        escapeChar();
 
+    }
+
+    public static void escapeChar () {
+        String sentence = "\nline one\rline two\fline three\bline four\0line five\tline six\"line seven\\line eight\77line nine";
+        System.out.println(sentence);
     }
 
     public static void radix () {

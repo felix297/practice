@@ -91,7 +91,7 @@ public class VocaGenerator {
      */
     private boolean generateData4OneClass (String rawFileName) {
         File file = new File(rawFileDir + rawFileName);
-        return generateData4OneClass(file, outputDir + "Anki_" + rawFileName + ".txt");
+        return generateData4OneClass(file, outputDir + "Anki_" + rawFileName);
     }
 
     /**

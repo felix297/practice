@@ -53,6 +53,130 @@ public class VocaGenerator {
     }
 
     /**
+     * 判断一个字符是否是日语假名（全角平假名或片假名）
+     * @param c 待判断的字符
+     * @return 判断结果
+     */
+    private boolean isKana(char c) {
+        Character.UnicodeBlock block = Character.UnicodeBlock.of(c);
+        return block == Character.UnicodeBlock.HIRAGANA || isKatakana(c);
+    }
+
+    /**
+     * 判断一个字符是否是日语片假名
+     * @param c 待判断的字符
+     * @return 判断结果
+     */
+    private boolean isKatakana (char c) {
+        Character.UnicodeBlock block = Character.UnicodeBlock.of(c);
+        return block == Character.UnicodeBlock.KATAKANA
+                || block == Character.UnicodeBlock.KATAKANA_PHONETIC_EXTENSIONS;
+    }
+
+    /**
+     * 判读一个字符串是否为空
+     * @param str 待判断字符串
+     * @return 判断结果
+     */
+    private boolean isEmptyStr(String str) {
+        return str == null || str.isEmpty();
+    }
+
+    /**
+     * 判断一个字符是否为符号
+     * @param c 待判断的字符
+     * @return 判断结果
+     */
+    private boolean isSymbol(char c){
+        int type = Character.getType(c);
+        return type == Character.SPACE_SEPARATOR ||
+                type == Character.LINE_SEPARATOR ||
+                type == Character.PARAGRAPH_SEPARATOR ||
+                type == Character.DASH_PUNCTUATION ||
+                type == Character.START_PUNCTUATION ||
+                type == Character.END_PUNCTUATION ||
+                type == Character.CONNECTOR_PUNCTUATION ||
+                type == Character.OTHER_PUNCTUATION ||
+                type == Character.MATH_SYMBOL ||
+                type == Character.CURRENCY_SYMBOL ||
+                type == Character.MODIFIER_SYMBOL ||
+                type == Character.OTHER_SYMBOL;
+    }
+
+    /**
+     * 判断一个字符串是否全为日语片假名(外来语)
+     * @param str 待判断的字符串
+     * @return 判断结果
+     */
+    private boolean isAllKatakanaIgnoreSymbols(String str) {
+        if (isEmptyStr(str)) {
+            return false;
+        }
+        for (char c : str.toCharArray()) {
+            // 跳过空格和各种符号
+            if (isSymbol(c) || isEnLetter(c) || Character.isDigit(c)) {
+                continue; // 忽略符号
+            }
+            if (!isKatakana(c)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * 判断一个字符是否为英文字母
+     * @param c 待判断的字符
+     * @return 判断结果
+     */
+    private boolean isEnLetter (char c) {
+        return (c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z');
+    }
+
+    /**
+     * 判断一个字符串是否全为日语假名(否是需要汉字到假名)
+     * @param str 待判断的字符串
+     * @return 判断结果
+     */
+    private boolean isAllKanaIgnoreSymbols(String str) {
+        if (isEmptyStr(str)) {
+            return false;
+        }
+        for (char c : str.toCharArray()) {
+            if (isSymbol(c) || isEnLetter(c) || Character.isDigit(c)) {
+                continue; // 忽略符号
+            }
+            if (!isKana(c)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * 给汉字前面添加一个空格，后面添加 "[]"
+     * @param containsKanji 是否包含汉字
+     * @param nihongo 日语
+     * @return 加了空格和 "[]"之后的日语
+     */
+    private String addSquareAfterKanji (boolean containsKanji, String nihongo) {
+        if (!containsKanji) {
+            return nihongo;
+        }
+        StringBuilder stringBuilder = new StringBuilder();
+        for (char ch: nihongo.toCharArray()) {
+            if (!(isKana(ch) || isSymbol(ch) || isEnLetter(ch) || Character.isDigit(ch))) {
+                stringBuilder.append(" ");
+                stringBuilder.append(ch);
+                stringBuilder.append("[]");
+                continue;
+            }
+            stringBuilder.append(ch);
+        }
+        return stringBuilder.toString();
+    }
+
+    /**
      * 将原生数据处理为目标格式数据，写入目标文件中
      * @param rawFile 原生数据文件
      * @param outputFilePath 目标文件
@@ -66,14 +190,17 @@ public class VocaGenerator {
 
         try(BufferedReader reader = new BufferedReader(new FileReader(rawFile))) {
             String line;
-            int count = 1;
+            int count = 1 + 60;
             while (Objects.nonNull(line = reader.readLine())) {
                 String[] strArr = line.split("\t");
-                if (strArr.length != 7) {
+                if (strArr.length != 5) {
                     System.out.println("Wrong colume number at line " + count + " !");
                     continue;
                 }
-                Tango tango = new Tango(strArr[2], strArr[5], strArr[0], strArr[1], strArr[6], rawFile.getName().substring(0, 6) + "_" + count + ".mp3");
+                String nihongo = strArr[0];
+                boolean containsKanji = !isAllKanaIgnoreSymbols(nihongo);
+                String isKanji2Kana = containsKanji?"1":"0";
+                Tango tango = new Tango(addSquareAfterKanji(containsKanji, nihongo), strArr[3], isAllKatakanaIgnoreSymbols(nihongo)?"1":"0", isKanji2Kana, strArr[4], rawFile.getName().substring(0, 6) + "_" + count + ".mp3");
                 writeLineIntoFile(outputFilePath, tango.toString());
                 count++;
             }

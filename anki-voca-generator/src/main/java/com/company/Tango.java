@@ -2,10 +2,10 @@ package com.company;
 
 public class Tango {
     private String nihongo;
-    private String lomaji;
+    private String lomaji; // 是否是外来语
     private String chinese;
     private String audio;
-    private String isKanji2Kana;
+    private String isKanji2Kana; // 是否需要汉字到假名
     private String isSmallNihongo = "";
     private String isSmallKana = "";
     private String isSmallChinese = "";

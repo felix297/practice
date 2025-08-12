@@ -190,7 +190,7 @@ public class VocaGenerator {
 
         try(BufferedReader reader = new BufferedReader(new FileReader(rawFile))) {
             String line;
-            int count = 1 + 60;
+            int count = 1;
             while (Objects.nonNull(line = reader.readLine())) {
                 String[] strArr = line.split("\t");
                 if (strArr.length != 5) {

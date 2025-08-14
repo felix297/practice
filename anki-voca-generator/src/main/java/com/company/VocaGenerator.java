@@ -3,54 +3,25 @@ package com.company;
 import java.util.Objects;
 import java.io.*;
 
+/**
+ * 卡组来源
+ * 大家的日本语 中级 1：https://ankiweb.net/shared/info/150726161
+ * JLPT 词汇：https://ankiweb.net/shared/info/832276382
+ */
 public class VocaGenerator {
     private final String resourcePath = "src/main/resources/";
     private final String outputDir = resourcePath + "output/";
     private final String rawFileDir = resourcePath + "rawVoca/";
-
     /**
-     * 验证文件是否存在，不存在则创建
-     * @param file 要验证的文件
+     * 卡组 https://ankiweb.net/shared/info/150726161 中的 tag 数量
      */
-    private void isFileExistsNCreate (File file) {
-        if (!file.exists()) {
-            System.out.println("Target written file is not existed, creating it");
-            try {
-                if (!file.createNewFile()) {
-                    throw new IOException();
-                }
-            } catch (IOException e) {
-                System.out.println("Error when creating target file <" + file.getAbsolutePath() + ">");
-                e.printStackTrace();
-            }
-        }
-    }
-
+    private final int tabNum_150726161 = 5;
     /**
-     * 验证文件是否存在
-     * @param file 要验证的文件
+     * 卡组 https://ankiweb.net/shared/info/832276382 中的 tag 数量
      */
-    private void isFileExists (File file, String msg) throws FileNotFoundException {
-        if (!file.exists()) {
-            throw new FileNotFoundException();
-        }
-    }
+    private final int tabNum_832276382 = 39;
 
-    /**
-     * 写入一行数据到目标文件中
-     * @param outputFilePath 目标文件
-     * @param content 写入内容
-     */
-    private void writeLineIntoFile (String outputFilePath, String content) {
-        File file = new File(outputFilePath);
-        isFileExistsNCreate(file);
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(outputFilePath, true))) {
-            writer.append(content);
-        } catch (IOException e) {
-            System.out.println("Error when writing into target file <" + file.getAbsolutePath() + ">");
-            e.printStackTrace();
-        }
-    }
+
 
     /**
      * 判断一个字符是否是日语假名（全角平假名或片假名）
@@ -183,7 +154,7 @@ public class VocaGenerator {
      */
     private boolean generateData4OneClass (File rawFile, String outputFilePath) {
         try {
-            isFileExists(rawFile, "Raw File is not exists!");
+            VocaUtil.isFileExists(rawFile, "Raw File is not exists!");
         } catch (FileNotFoundException e){
             e.printStackTrace();
         }
@@ -193,16 +164,41 @@ public class VocaGenerator {
             int count = 1;
             while (Objects.nonNull(line = reader.readLine())) {
                 String[] strArr = line.split("\t");
-                if (strArr.length != 5) {
+                if (strArr.length != tabNum_150726161 && strArr.length != tabNum_832276382) {
                     System.out.println("Wrong colume number at line " + count + " !");
                     continue;
                 }
-                String nihongo = strArr[0];
-                boolean containsKanji = !isAllKanaIgnoreSymbols(nihongo);
-                String isKanji2Kana = containsKanji?"1":"0";
-                Tango tango = new Tango(addSquareAfterKanji(containsKanji, nihongo), strArr[3], isAllKatakanaIgnoreSymbols(nihongo)?"1":"0", isKanji2Kana, strArr[4], rawFile.getName().substring(0, 6) + "_" + count + ".mp3");
-                writeLineIntoFile(outputFilePath, tango.toString());
-                count++;
+                if (strArr.length == tabNum_150726161) {
+                    String nihongo = strArr[0];
+                    boolean containsKanji = !isAllKanaIgnoreSymbols(nihongo);
+                    String isKanji2Kana = containsKanji?"1":"0";
+                    boolean isAllKatakana = isAllKatakanaIgnoreSymbols(nihongo);
+                    String luomaji = isAllKatakana?"1":"0";
+                    Tango tango = new Tango(addSquareAfterKanji(containsKanji, nihongo),
+                            strArr[3],
+                            luomaji,
+                            isKanji2Kana,
+                            strArr[4],
+                            rawFile.getName().substring(0, 6) + "_" + count + ".mp3");
+                    VocaUtil.writeLineIntoFile(outputFilePath, tango.toString());
+                    count++;
+                }
+                if (strArr.length == tabNum_832276382) {
+                    String nihongo = strArr[1];
+                    boolean containsKanji = !isAllKanaIgnoreSymbols(nihongo);
+                    String isKanji2Kana = containsKanji?"1":"0";
+                    boolean isAllKatakana = isAllKatakanaIgnoreSymbols(nihongo);
+                    String luomaji = isAllKatakana?strArr[4]:"0";
+                    Tango tango = new Tango(addSquareAfterKanji(containsKanji, nihongo),
+                            strArr[6],
+                            luomaji,
+                            isKanji2Kana,
+                            strArr[3],
+                            strArr[7],
+                            strArr[2]);
+                    VocaUtil.writeLineIntoFile(outputFilePath, tango.toString());
+                    count++;
+                }
             }
             return true;
         } catch (IOException e) {

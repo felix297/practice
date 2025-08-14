@@ -34,6 +34,16 @@ public class Tango {
         this.isKanji2Kana = isKanji2Kana.equals("0") ? "" : isKanji2Kana;
     }
 
+    public Tango(String nihongo, String chinese, String lomaji, String isKanji2Kana, String cixing, String audioFileName, String yinhe) {
+        this.nihongo = nihongo;
+        this.lomaji = lomaji.equals("0") ? "" : lomaji;
+        this.chinese = chinese;
+        this.cixing = cixing;
+        this.audio = audioFileName;
+        this.isKanji2Kana = isKanji2Kana.equals("0") ? "" : isKanji2Kana;
+        this.yinhe = yinhe;
+    }
+
     @Override
     public String toString() {
         StringBuilder res = new StringBuilder();

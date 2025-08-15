@@ -2,9 +2,7 @@ package com.company;
 
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.ja.JapaneseTokenizer;
-import org.apache.lucene.analysis.ja.tokenattributes.BaseFormAttribute;
 import org.apache.lucene.analysis.ja.tokenattributes.ReadingAttribute;
-import org.apache.lucene.analysis.ja.tokenattributes.InflectionAttribute;
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
 import java.io.IOException;
 import java.io.StringReader;
@@ -80,7 +78,13 @@ public class VocaUtil {
             String reading = readingAttr.getReading(); // 读音（カタカナ）
 
             if (reading != null) {
-                sb.append(katakanaToHiragana(reading));
+                String hira = katakanaToHiragana(reading);
+                // 如果原词和读音不一样才加括号
+                if (!surface.equals(hira)) {
+                    sb.append(surface).append("[").append(hira).append("]");
+                } else {
+                    sb.append(surface);
+                }
             } else {
                 sb.append(surface);
             }

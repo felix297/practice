@@ -5,8 +5,8 @@ import java.io.*;
 
 /**
  * 卡组来源
- * 大家的日本语 中级 1：https://ankiweb.net/shared/info/150726161
- * JLPT 词汇：https://ankiweb.net/shared/info/832276382
+ * 大家的日本语 中级 1：https://ankiweb.net/shared/info/150726161 : 注意导出原始数据时要选上“标签”
+ * JLPT 词汇：https://ankiweb.net/shared/info/832276382 : 注意导出时要选上“标签”
  */
 public class VocaGenerator {
     private final String resourcePath = "src/main/resources/";
@@ -130,18 +130,20 @@ public class VocaGenerator {
      * @param nihongo 日语
      * @return 加了空格和 "[]"之后的日语
      */
-    private String addSquareAfterKanji (boolean containsKanji, String nihongo) throws IOException {
+    private String addFurikana(boolean containsKanji, String nihongo) throws IOException {
         if (!containsKanji) {
             return nihongo;
         }
+        char[] nihongo2addQuareArr = VocaUtil.toHiragana(nihongo).toCharArray();
         StringBuilder stringBuilder = new StringBuilder();
-        for (char ch: nihongo.toCharArray()) {
+        for (int index = 0; index < nihongo2addQuareArr.length; index++){
+            char ch = nihongo2addQuareArr[index];
             if (!(isKana(ch) || isSymbol(ch) || isEnLetter(ch) || Character.isDigit(ch))) {
                 stringBuilder.append(" ");
                 stringBuilder.append(ch);
-                stringBuilder.append("[");
-                stringBuilder.append(VocaUtil.toHiragana(Character.toString(ch)));
-                stringBuilder.append("]");
+                if (index == nihongo2addQuareArr.length - 1 || nihongo2addQuareArr[index + 1] != '[') {
+                    stringBuilder.append("[]");
+                }
                 continue;
             }
             stringBuilder.append(ch);
@@ -176,7 +178,7 @@ public class VocaGenerator {
                     String isKanji2Kana = containsKanji?"1":"0";
                     boolean isAllKatakana = isAllKatakanaIgnoreSymbols(nihongo);
                     String luomaji = isAllKatakana?"1":"0";
-                    Tango tango = new Tango(addSquareAfterKanji(containsKanji, nihongo),
+                    Tango tango = new Tango(addFurikana(containsKanji, nihongo),
                             strArr[3],
                             luomaji,
                             isKanji2Kana,
@@ -191,7 +193,7 @@ public class VocaGenerator {
                     String isKanji2Kana = containsKanji?"1":"0";
                     boolean isAllKatakana = isAllKatakanaIgnoreSymbols(nihongo);
                     String luomaji = isAllKatakana?strArr[4]:"0";
-                    Tango tango = new Tango(addSquareAfterKanji(containsKanji, nihongo),
+                    Tango tango = new Tango(addFurikana(containsKanji, nihongo),
                             strArr[6],
                             luomaji,
                             isKanji2Kana,
@@ -199,6 +201,8 @@ public class VocaGenerator {
                             strArr[7],
                             strArr[2]);
                     VocaUtil.writeLineIntoFile(outputFilePath, tango.toString());
+                    String kanaFilePath = outputDir + "kana_" + new File(outputFilePath).getName();
+                    VocaUtil.writeLineIntoFile(kanaFilePath, strArr[4] + "\n");
                     count++;
                 }
             }

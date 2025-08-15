@@ -130,7 +130,7 @@ public class VocaGenerator {
      * @param nihongo 日语
      * @return 加了空格和 "[]"之后的日语
      */
-    private String addSquareAfterKanji (boolean containsKanji, String nihongo) {
+    private String addSquareAfterKanji (boolean containsKanji, String nihongo) throws IOException {
         if (!containsKanji) {
             return nihongo;
         }
@@ -139,7 +139,9 @@ public class VocaGenerator {
             if (!(isKana(ch) || isSymbol(ch) || isEnLetter(ch) || Character.isDigit(ch))) {
                 stringBuilder.append(" ");
                 stringBuilder.append(ch);
-                stringBuilder.append("[]");
+                stringBuilder.append("[");
+                stringBuilder.append(VocaUtil.toHiragana(Character.toString(ch)));
+                stringBuilder.append("]");
                 continue;
             }
             stringBuilder.append(ch);

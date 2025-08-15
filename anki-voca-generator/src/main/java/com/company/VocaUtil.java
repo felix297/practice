@@ -1,8 +1,17 @@
 package com.company;
 
+import org.apache.lucene.analysis.TokenStream;
+import org.apache.lucene.analysis.ja.JapaneseTokenizer;
+import org.apache.lucene.analysis.ja.tokenattributes.BaseFormAttribute;
+import org.apache.lucene.analysis.ja.tokenattributes.ReadingAttribute;
+import org.apache.lucene.analysis.ja.tokenattributes.InflectionAttribute;
+import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
+import java.io.IOException;
+import java.io.StringReader;
 import java.io.*;
 
 public class VocaUtil {
+
     /**
      * 验证文件是否存在，不存在则创建
      * @param file 要验证的文件
@@ -45,5 +54,58 @@ public class VocaUtil {
             System.out.println("Error when writing into target file <" + file.getAbsolutePath() + ">");
             e.printStackTrace();
         }
+    }
+
+    /**
+     * 将日语文本转换为平假名
+     *
+     * @param text 日语文本
+     * @return 平假名字符串
+     */
+    public static String toHiragana(String text) throws IOException {
+        StringBuilder sb = new StringBuilder();
+
+        // 使用 Lucene 的 Kuromoji Tokenizer
+        JapaneseTokenizer tokenizer = new JapaneseTokenizer(null, false, JapaneseTokenizer.Mode.NORMAL);
+        tokenizer.setReader(new StringReader(text));
+
+        TokenStream ts = tokenizer;
+        ts.reset();
+
+        CharTermAttribute termAttr = ts.getAttribute(CharTermAttribute.class);
+        ReadingAttribute readingAttr = ts.getAttribute(ReadingAttribute.class);
+
+        while (ts.incrementToken()) {
+            String surface = termAttr.toString(); // 原文
+            String reading = readingAttr.getReading(); // 读音（カタカナ）
+
+            if (reading != null) {
+                sb.append(katakanaToHiragana(reading));
+            } else {
+                sb.append(surface);
+            }
+        }
+
+        ts.end();
+        ts.close();
+
+        return sb.toString();
+    }
+
+    /**
+     * 将片假名转换为平假名
+     */
+    private static String katakanaToHiragana(String katakana) {
+        StringBuilder result = new StringBuilder();
+        for (char c : katakana.toCharArray()) {
+            if (c >= 'ァ' && c <= 'ン') {
+                result.append((char) (c - 'ァ' + 'ぁ'));
+            } else if (c == 'ヴ') {
+                result.append('ゔ'); // 特殊处理
+            } else {
+                result.append(c);
+            }
+        }
+        return result.toString();
     }
 }

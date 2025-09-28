@@ -21,8 +21,6 @@ public class VocaGenerator {
      */
     private final int tabNum_832276382 = 39;
 
-
-
     /**
      * 判断一个字符是否是日语假名（全角平假名或片假名）
      * @param c 待判断的字符
@@ -178,12 +176,14 @@ public class VocaGenerator {
                     String isKanji2Kana = containsKanji?"1":"0";
                     boolean isAllKatakana = isAllKatakanaIgnoreSymbols(nihongo);
                     String luomaji = isAllKatakana?"1":"0";
+                    String rawFileName = rawFile.getName();
+                    String audioFileName = rawFileName.substring(0, rawFileName.length() - 4) + "_" + count + ".mp3";
                     Tango tango = new Tango(addFurikana(containsKanji, nihongo),
                             strArr[3],
                             luomaji,
                             isKanji2Kana,
                             strArr[4],
-                            rawFile.getName().substring(0, 6) + "_" + count + ".mp3");
+                            audioFileName);
                     VocaUtil.writeLineIntoFile(outputFilePath, tango.toString());
                     count++;
                 }

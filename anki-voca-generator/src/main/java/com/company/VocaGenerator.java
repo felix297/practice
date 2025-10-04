@@ -177,7 +177,7 @@ public class VocaGenerator {
                     boolean isAllKatakana = isAllKatakanaIgnoreSymbols(nihongo);
                     String luomaji = isAllKatakana?"1":"0";
                     String rawFileName = rawFile.getName();
-                    String audioFileName = rawFileName.substring(0, rawFileName.length() - 4) + "_" + count + ".mp3";
+                    String audioFileName = rawFileName.split("\\.")[0] + "_" + count + ".mp3";
                     Tango tango = new Tango(addFurikana(containsKanji, nihongo),
                             strArr[3],
                             luomaji,

@@ -17,14 +17,15 @@ public class Tango {
     public Tango() {
     }
 
-    public Tango(String nihongo, String chinese, String lomaji, String isKanji2Kana, String audioFileName) {
-        this.nihongo = nihongo;
-        this.lomaji = lomaji.equals("0") ? "" : lomaji;
-        this.chinese = chinese;
-        this.audio = "[sound:" + audioFileName + "]";
-        this.isKanji2Kana = isKanji2Kana.equals("0") ? "" : isKanji2Kana;
-    }
-
+    /**
+     * 中级 1 卡组制作用
+     * @param nihongo
+     * @param chinese
+     * @param lomaji
+     * @param isKanji2Kana
+     * @param cixing
+     * @param audioFileName
+     */
     public Tango(String nihongo, String chinese, String lomaji, String isKanji2Kana, String cixing, String audioFileName) {
         this.nihongo = nihongo;
         this.lomaji = lomaji.equals("0") ? "" : lomaji;
@@ -34,6 +35,16 @@ public class Tango {
         this.isKanji2Kana = isKanji2Kana.equals("0") ? "" : isKanji2Kana;
     }
 
+    /**
+     * JLPT 卡组制作用
+     * @param nihongo
+     * @param chinese
+     * @param lomaji
+     * @param isKanji2Kana
+     * @param cixing
+     * @param audioFileName
+     * @param yinhe
+     */
     public Tango(String nihongo, String chinese, String lomaji, String isKanji2Kana, String cixing, String audioFileName, String yinhe) {
         this.nihongo = nihongo;
         this.lomaji = lomaji.equals("0") ? "" : lomaji;
@@ -42,6 +53,14 @@ public class Tango {
         this.audio = audioFileName;
         this.isKanji2Kana = isKanji2Kana.equals("0") ? "" : isKanji2Kana;
         this.yinhe = yinhe;
+    }
+
+    public Tango(String nihongo, String chinese, String lomaji, String isKanji2Kana, String audioFileName) {
+        this.nihongo = nihongo;
+        this.lomaji = lomaji.equals("0") ? "" : lomaji;
+        this.chinese = chinese;
+        this.audio = "[sound:" + audioFileName + "]";
+        this.isKanji2Kana = isKanji2Kana.equals("0") ? "" : isKanji2Kana;
     }
 
     @Override

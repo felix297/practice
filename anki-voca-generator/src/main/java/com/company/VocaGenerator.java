@@ -7,6 +7,7 @@ import java.io.*;
  * 卡组来源
  * 大家的日本语 中级 1：https://ankiweb.net/shared/info/150726161 : 注意导出原始数据时要选上“标签”
  * JLPT 词汇：https://ankiweb.net/shared/info/832276382 : 注意导出时要选上“标签”
+ * 大家的日本语 中级 2：GPT5 Pro 识别
  */
 public class VocaGenerator {
     private final String resourcePath = "src/main/resources/";
@@ -20,6 +21,10 @@ public class VocaGenerator {
      * 卡组 https://ankiweb.net/shared/info/832276382 中的 tag 数量
      */
     private final int tabNum_832276382 = 39;
+    /**
+     *
+     */
+    private final int TABNUM_MEDIUM_2 = 3;
 
     /**
      * 判断一个字符是否是日语假名（全角平假名或片假名）
@@ -165,8 +170,11 @@ public class VocaGenerator {
             String line;
             int count = 1;
             while (Objects.nonNull(line = reader.readLine())) {
-                String[] strArr = line.split("\t");
-                if (strArr.length != tabNum_150726161 && strArr.length != tabNum_832276382) {
+                String[] strArr = line.split(",");
+                if (strArr.length == 1) {
+                    strArr = line.split("\t");
+                }
+                if (strArr.length != tabNum_150726161 && strArr.length != tabNum_832276382 && strArr.length != TABNUM_MEDIUM_2) {
                     System.out.println("Wrong colume number at line " + count + " !");
                     continue;
                 }
@@ -203,6 +211,22 @@ public class VocaGenerator {
                     VocaUtil.writeLineIntoFile(outputFilePath, tango.toString());
                     String kanaFilePath = outputDir + "kana_" + new File(outputFilePath).getName();
                     VocaUtil.writeLineIntoFile(kanaFilePath, strArr[4] + "\n");
+                    count++;
+                }
+                if (strArr.length == TABNUM_MEDIUM_2) {
+                    String nihongo = strArr[0];
+                    boolean containsKanji = !isAllKanaIgnoreSymbols(nihongo);
+                    String isKanji2Kana = containsKanji?"1":"0";
+                    boolean isAllKatakana = isAllKatakanaIgnoreSymbols(nihongo);
+                    String luomaji = isAllKatakana?"1":"0";
+                    String rawFileName = rawFile.getName();
+                    String audioFileName = rawFileName.split("\\.")[0] + "_" + count + ".mp3";
+                    Tango tango = new Tango(nihongo,
+                            strArr[2],
+                            luomaji,
+                            isKanji2Kana,
+                            audioFileName);
+                    VocaUtil.writeLineIntoFile(outputFilePath, tango.toString());
                     count++;
                 }
             }
